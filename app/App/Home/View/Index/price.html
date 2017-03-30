@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>数据统计</title>
+<script src='/App/Home/View/Index/jquery.js'></script>
+<script>
+$(function(){
+
+})
+</script>
+<style>
+body { font-size: 22px; }
+#table h2 { font-size: 22px; margin-top: 0; }
+#table table { border: 2px solid; }
+#table td { padding: 3px; text-align: center; 1border: 2px solid; }
+
+</style>
+</head>
+<body>
+<div id="table">
+    <h2>近{$days}日数据</h2>
+    <table>
+        <tr>
+            <td>cp</td>  
+            <td>昨日close</td> 
+            <td>平均价</td>  
+            <td>最高价</td>  
+            <td>最低价</td>  
+        </tr>
+        
+        <volist name="dt" id="item" key="k">
+        <tr>
+            <td>{$item.cp}</td> 
+
+                <if condition="$item.last_per gt 0">
+            <td style="color:red">
+                <else/>
+            <td style="color:green">
+                </if>
+                {$item.last_close} ({$item.last_per})
+            </td>
+
+                <if condition="$item.avg_per gt 0">
+            <td style="color:red">
+                <else/>
+            <td style="color:green">
+                </if>
+                {$item.avg_close} ({$item.avg_per})
+            </td>
+
+                <if condition="$item.max_per gt 0">
+            <td style="color:red">
+                <else/>
+            <td style="color:green">
+                </if>
+                {$item.max_close} ({$item.max_per})
+            </td>
+
+                <if condition="$item.min_per gt 0">
+            <td style="color:red">
+                <else/>
+            <td style="color:green">
+                </if>
+                {$item.min_close} ({$item.min_per})
+            </td>
+        </tr>
+        </volist>
+    </table>
+</div>
+
+</body>
+</html>
+

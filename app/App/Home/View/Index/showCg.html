@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>数据统计</title>
+<script src='/App/Home/View/Index/jquery.js'></script>
+<script>
+$(function(){
+
+    $('.cp').click(function(){
+        $(this).parent().addClass('gray');
+    })
+
+})
+</script>
+<style>
+body { font-size: 20px; }
+#table table { border: 2px solid; }
+#table td { padding: 3px; text-align: center; 1border: 2px solid; }
+
+.gray { color: #c6e2c6; }
+</style>
+</head>
+<body>
+<div id="table">
+    <table>
+        <tr>
+            <td>cp</td>  
+            <td>连跌</td>  
+            <td>连涨</td>  
+            <td>交替</td>  
+            <td>跌涨率</td>  
+            <td>涨次</td> 
+            <td>涨量</td> 
+            <td>平均涨量</td> 
+            <td>中位涨量</td> 
+            <td>跌次</td>  
+            <td>跌量</td>  
+            <td>平均跌量</td>  
+            <td>中位跌量</td>  
+            <td>最大跌量</td>  
+            <td>时期涨跌幅</td>  
+        </tr>
+        
+        <volist name="dt" id="item" key="k">
+        <tr>
+            <td class='cp'>{$item.cp}</td>  
+            <td>{$item.con_down_c}({$item.con_down_c_per})</td>  
+            <td>{$item.con_up_c}({$item.con_up_c_per})</td>  
+            <td>{$item.con_cg_c}({$item.con_cg_c_per})</td>  
+            <td>{$item.down_up_per}</td>  
+            <td>{$item.count_up}</td> 
+            <td>{$item.sum_up}</td> 
+            <td>{$item.avg_up}</td> 
+            <td>{$item.mid_up}</td> 
+            <td>{$item.count_down}</td> 
+            <td>{$item.sum_down}</td> 
+            <td>{$item.avg_down}</td> 
+            <td>{$item.mid_down}</td> 
+            <td>{$item.max_down}</td> 
+            <td>{$item.cg_per}</td> 
+        </tr>
+        </volist>
+    </table>
+</div>
+
+</body>
+</html>
+

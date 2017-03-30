@@ -1,0 +1,97 @@
+﻿<form action="__URL__/article" method="get">
+<table  class="table table-hover">
+<tr>
+       	<td>快速查找:
+       		<input type="text" name="id" value="{$stxt.id}" size="10" placeholder="ID">
+       		<input type="text" name="tag" value="{$stxt.tag}" size="10" placeholder="文章标签">
+       		<input type="text" name="desc" value="{$stxt.desc}" size="10" placeholder="文章描述">
+          <input type="text" name="author_uid" value="{$stxt.author_uid}" size="10" placeholder="作者id">
+          <select name="orderstyle">
+            <option value="default">--排序方式--</option>
+            <option value="desc" <if condition="$stxt.orderstyle eq desc">selected</if> >倒序</option>
+            <option value="asc" <if condition="$stxt.orderstyle eq asc">selected</if> >正序</option>
+          </select>
+       		<button type="submit" name="chazhao" value="1" class="btn-primary">开始查找</button>
+       		&nbsp;&nbsp;&nbsp;&nbsp;<a href="__URL__/article">显示全部</a>
+       	</td>
+</tr>
+</table>
+</form> 
+<div class="box-footer clearfix" style="vertical-align:middle">
+	<div  class="divhehe"  style="float:left">{$pages}</div>
+</div>
+<table class="table table-hover">
+     <tr>
+       		 <th width="4%">序号</th>
+           <th>id</th>
+       		 <th>内容</th>
+           
+           <th>添加时间</th>
+           <th>管理操作</th>
+     </tr>
+     
+    <volist name="list" id="item" key="k">
+          <tr id="t3{$item.id}" <if condition="$item['is_del'] eq 1">style="color:#CCC"</if> >
+          	<td style="vertical-align:iosmiddle"><font color="#CCC">[{$k}]</font></td>
+          	<td style="vertical-align:middle">{$item.id}</td>
+            <td style="vertical-align:middle">{$item.content}</td>
+            <td style="vertical-align:middle">{$item.add_t|date="Y-m-d H:i:s",###}</td>
+           	<td>
+            
+            <a href="__URL__/addArticle?id={$item.id}" target="_blank">编辑 |</a>
+                  <label><input <if condition="$item[is_del] eq 1">checked</if> style="vertical-align: text-bottom;" type="checkbox" name="is_del" value="1" class="yjyLock" bbsId='{$item.id}' />禁用</label>
+               	  <!-- <a href="__URL__/deleteArticle/id/{$item.id}" onclick="return confirm('确认删除？')">删除</a> -->
+            </td>
+          </tr>
+        </volist> 
+</table>
+
+ <div class="box-footer clearfix" style="vertical-align:middle">
+	<div  class="divhehe"  >{$pages}</div>             
+</div>
+<script>
+function ajaxPHP(id,field,value,msg,url){
+  	if(!confirm(msg)){
+    	return false;
+  	}
+  
+    $.ajax({
+      type: "GET",
+    url: "__CONTROLLER__/"+url+"/id/"+id+"/value/"+value+"/field/"+field,
+    success:function(data){
+      if(data==1){
+        //针对“禁用”操作的样式处理
+        if(field=='is_del'){
+          if(value==1){
+            $("#t3"+id).css("color","#CCC");
+          }else{
+            $("#t3"+id).css("color","black");
+          }
+        }
+        
+      }else{
+        alert('错误码：'+data);
+      }
+      
+    }
+  });
+    
+}
+var aLock = document.querySelectorAll('.yjyLock')
+speedyOp(aLock,'禁用','is_del')
+
+
+function speedyOp(obj,word,field) {
+  for (var i=0; i<obj.length; i++) {
+    obj[i].onclick = function () {
+      var id = this.getAttribute('bbsid')
+      var val = this.checked ? 1 : 0
+      var note = this.checked ? '确定'+word+'该文章？' : '确定解除'+word+'？'
+
+      if (ajaxPHP(id,field,val,note,'articleAjax') === false) {
+        this.checked = !this.checked
+      }
+    }
+  }
+}  
+</script>
